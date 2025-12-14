@@ -18,9 +18,9 @@ services:
       - m7a-network
     restart: unless-stopped
 
-  python-app:
+  m7a:
     build: .
-    container_name: python-app
+    container_name: m7a
     depends_on:
       - chrome
       - ocr
