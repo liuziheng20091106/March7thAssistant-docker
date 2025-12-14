@@ -1,0 +1,33 @@
+services:
+  chrome:
+    image: selenium/standalone-chrome-for-testing:latest
+    container_name: chrome
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    networks:
+      - m7a-network
+    shm_size: "2gb"
+
+  ocr:
+    image: paddleocr-json:latest
+    container_name: ocr
+    ports:
+      - "3746:3746"
+    networks:
+      - m7a-network
+    restart: unless-stopped
+
+  python-app:
+    build: .
+    container_name: python-app
+    depends_on:
+      - chrome
+      - ocr
+    networks:
+      - m7a-network
+    volumes:
+      - .:/m7a
+networks:
+  m7a-network:
+    driver: bridge
